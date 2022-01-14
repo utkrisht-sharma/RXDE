@@ -1,16 +1,13 @@
-import { BasicAuthCredentials } from "../../types/BasicAuthCredentialsType";
 import * as React from 'react';
 import { DetailsList, IColumn } from '@fluentui/react/lib/DetailsList';
 import { Link } from '@fluentui/react/lib/Link';
-import { JsxElement } from "typescript";
-
+import { BaseDataFetcherService } from "../../services/interfaces/BaseDataFetcherService";
 
 type RexerContainerProps = {
-  authCredentials: BasicAuthCredentials
+  dataFetcherService: BaseDataFetcherService
 };
-
-export const RexerContainer = () => {
-  return <DetailsListNavigatingFocusExample />;
+export const RexerContainer = ({ dataFetcherService }: RexerContainerProps) => {
+  return (<DetailsListNavigatingFocusExample />);
 };
 
 

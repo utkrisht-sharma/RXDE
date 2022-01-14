@@ -2,17 +2,20 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { BasicAuthCredentials } from "../../types/BasicAuthCredentialsType";
 import { JCRProperty } from "../../types/JCRPropertyTypes";
 import { ChildNodesSchemaType } from "../../types/schemas/ChildNodesSchemaType";
-import { BaseContentRepository } from "../interfaces/BaseContentRepository";
+import { BaseDataFetcherService } from "../interfaces/BaseDataFetcherService";
 
-export class SimpleContentRepository extends BaseContentRepository {
+export class SimpleDataFetcherService implements BaseDataFetcherService {
+    private _devMode: Boolean;
+    private _creds: BasicAuthCredentials;
     private _axiosInstance: AxiosInstance;
     constructor(creds: BasicAuthCredentials, devMode: Boolean) {
-        super(creds, devMode);
+        this._creds = creds;
+        this._devMode = devMode;
         const axiosInstances = [
-            axios.create({ baseURL: 'http://localhost:8080', timeout: 1000 }),
+            axios.create({ baseURL: 'http://localhost:8080', timeout: 1000, auth: this._creds }),
             axios.create({ baseURL: '', timeout: 1000 })
         ]
-        this._axiosInstance = devMode ? axiosInstances[0] : axiosInstances[1];
+        this._axiosInstance = this._devMode ? axiosInstances[0] : axiosInstances[1];
     }
     create(basePath: string, name: string, props: JCRProperty[]): Promise<Boolean> {
         throw new Error("Method not implemented.");
